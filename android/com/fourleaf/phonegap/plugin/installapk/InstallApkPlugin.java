@@ -22,23 +22,25 @@ public class InstallApkPlugin extends CordovaPlugin {
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			intent.setDataAndType(uri,
 					"application/vnd.android.package-archive");
-			Process p;
-			try {
-				// [文件夹705:drwx---r-x]
-				String u = rawUri.replace("file://", "");
-				String[] args1 = { "chmod", "705", u.substring(0, u.lastIndexOf("/")) };
-				p = Runtime.getRuntime().exec(args1);
-				p.waitFor();
-		        // [文件604:-rw----r--]
-		        String[] args2 = { "chmod", "604", u };
-		        p = Runtime.getRuntime().exec(args2);
-		        p.waitFor();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(rawUri.startsWith("file://")){
+				Process p;
+				try {
+					// [文件夹705:drwx---r-x]
+					String u = rawUri.replace("file://", "");
+					String[] args1 = { "chmod", "705", u.substring(0, u.lastIndexOf("/")) };
+					p = Runtime.getRuntime().exec(args1);
+					p.waitFor();
+			        // [文件604:-rw----r--]
+			        String[] args2 = { "chmod", "604", u };
+			        p = Runtime.getRuntime().exec(args2);
+			        p.waitFor();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			cordova.getActivity().startActivity(intent);
 			return true;
