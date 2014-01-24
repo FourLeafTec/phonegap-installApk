@@ -1,4 +1,3 @@
-cordova.define("com.zx.phonegap.plugin.installApkPlugin.installApk", function(require, exports, module) {
 
 var exec = require("cordova/exec");
 
@@ -12,4 +11,3 @@ var installApk = {
 	}
 };
 module.exports = installApk;
-});
